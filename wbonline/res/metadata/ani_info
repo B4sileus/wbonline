@@ -1,0 +1,16 @@
+coin01=new_animacao
+end=res/img/coin01.png
+width=22
+height=22
+num_lin=1
+num_col=4
+speed=2
+-
+coin02=new_animacao
+end=res/img/coin02.png
+width=30
+height=30
+num_lin=1
+num_col=4
+speed=2
+-
