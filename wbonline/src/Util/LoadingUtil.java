@@ -9,27 +9,27 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 
 import Controller.Game;
-import Model.Animado;
-import View.Animacao;
-import View.Heroi;
+import Model.Animated;
+import View.Animation;
+import View.Hero;
 
 public class LoadingUtil {
 	
 	// reads the file about animations and add them on the map
-	public static void loadAnimado(Map<String, Animado> mapa, String end) {
+	public static void loadAnimated(Map<String, Animated> map, String address) {
 		try {
 			// finding
-			FileReader ent = new FileReader(end);
+			FileReader ent = new FileReader(address);
 			BufferedReader buffered = new BufferedReader(ent);
 			
 			// reading
 			String in = "";
 			String a[];
-			Animado aux = null;
+			Animated aux = null;
 			
 			while( (in = buffered.readLine()) != null ) {
 				if(in.contentEquals("-")) { // separates one from another
-					mapa.put(aux.getNome(), aux); // puts in the map
+					map.put(aux.getName(), aux); // puts in the map
 					continue; // start the other
 				} else if(in.contentEquals("EOF")) { // end of file
 					break;
@@ -38,15 +38,15 @@ public class LoadingUtil {
 				// splitting
 				a = in.split("=");
 				
-				if(a[1].contentEquals("new_animacao")) { // new one
-					aux = new Animacao();
-					aux.setNome(a[0]); // sets its name, so I can find it later on the map
-				} else if(a[1].contentEquals("new_heroi")) { // new one
-					aux = new Heroi();
-					aux.setNome(a[0]); // also sets its name
+				if(a[1].contentEquals("new_animation")) { // new one
+					aux = new Animation();
+					aux.setName(a[0]); // sets its name, so I can find it later on the map
+				} else if(a[1].contentEquals("new_hero")) { // new one
+					aux = new Hero();
+					aux.setName(a[0]); // also sets its name
 				} else {
 					// set the attributes
-					LoadingUtil.leiaAnimado(a[0], a[1], (Animado)aux);
+					LoadingUtil.readsAnimated(a[0], a[1], (Animated)aux);
 				}
 			}
 			
@@ -55,17 +55,17 @@ public class LoadingUtil {
 			ent.close();
 		} catch (Exception e) {
 			// ops...
-			System.out.println("Arquivo não encontrado em " + end);
+			System.out.println("File not found at " + address);
 		}
 	}
 	// this read and set the attributes
-	private static void leiaAnimado(String atr, String val, Animado aux) {		
-		switch(atr) {
-		case "end": // sprite address
-			aux.setImagem( (new ImageIcon(val)).getImage() );
+	private static void readsAnimated(String attr, String val, Animated aux) {		
+		switch(attr) {
+		case "address": // sprite address
+			aux.setImage( (new ImageIcon(val)).getImage() );
 			break;
 		case "icon": // icon address
-			((Heroi)aux).setIcon( (new ImageIcon(val)).getImage() );
+			((Hero)aux).setIcon( (new ImageIcon(val)).getImage() );
 			break;
 		case "width": // width
 			aux.setWidth( Integer.parseInt(val) );
@@ -73,8 +73,8 @@ public class LoadingUtil {
 		case "height": // height
 			aux.setHeight( Integer.parseInt(val) );
 			break;
-		case "num_lin": // number of rows
-			aux.setNumLin(Integer.parseInt(val) );
+		case "num_row": // number of rows
+			aux.setNumRow(Integer.parseInt(val) );
 			break;
 		case "num_col": // number of columns
 			aux.setNumCol( Integer.parseInt(val) );
@@ -82,28 +82,28 @@ public class LoadingUtil {
 		case "speed": // speed of the frames
 			aux.setSpeed( Integer.parseInt(val) );
 			break;
-		case "esp": // space between the draws
-			aux.setEsp( Integer.parseInt(val) );
+		case "space": // space between the draws
+			aux.setSpace( Integer.parseInt(val) );
 			break;
 		// in the case it is an attribute of a child class, do a cast
 		}
 	}
 	
 	// loads the file containing the map info, and instanciate them on the scenario
-	public static void addAnimacoes(Map<String, Animado> mapa, ArrayList<Animacao> lista, String end) {
+	public static void addAnimations(Map<String, Animated> map, ArrayList<Animation> list, String address) {
 		try {
 			// finding
-			FileReader ent = new FileReader(end);
+			FileReader ent = new FileReader(address);
 			BufferedReader buffered = new BufferedReader(ent);
 			
 			// reading
 			String in = "";
 			String a[];
-			Animacao aux = null;
+			Animation aux = null;
 			
 			while( (in = buffered.readLine()) != null ) {
 				if(in.contentEquals("-")) { // end this one
-					lista.add( aux ); // add this one
+					list.add( aux ); // add this one
 					aux = null; // new one
 					continue;
 				} else if(in.contentEquals("EOF")) { // end of file
@@ -113,15 +113,16 @@ public class LoadingUtil {
 				// splitting
 				a = in.split("=");
 				
+				// note: change to new_animation
 				if(a[1].contentEquals("new_animacao")) { // new one
 					// clones the existing object from the map, so it can set
 					// some attributes, and add to the game.
 					// important: it doesn't clone the reference to the image,
 					// so be careful when modifying it.
-					aux = ((Animacao)mapa.get( a[0] )).clone();
+					aux = ((Animation)map.get( a[0] )).clone();
 				} else {
 					// set some attributes
-					LoadingUtil.atribuaAnimado(a[0], a[1], aux);
+					LoadingUtil.setAnimated(a[0], a[1], aux);
 				}
 			}
 			
@@ -130,23 +131,23 @@ public class LoadingUtil {
 			ent.close();
 		} catch (Exception e) {
 			// ops...
-			System.out.println("Arquivo não encontrado em " + end);
+			System.out.println("File not found at " + address);
 		}
 	}
-	public static void addHerois(Map<String, Animado> mapa, ArrayList<Heroi> lista, String end) {
+	public static void addHeroes(Map<String, Animated> map, ArrayList<Hero> list, String address) {
 		try {
 			// finding
-			FileReader ent = new FileReader(end);
+			FileReader ent = new FileReader(address);
 			BufferedReader buffered = new BufferedReader(ent);
 			
 			// reading
 			String in = "";
 			String a[];
-			Heroi aux = null;
+			Hero aux = null;
 			
 			while( (in = buffered.readLine()) != null ) {
 				if(in.contentEquals("-")) { // end of this one
-					lista.add( aux ); // add this one
+					list.add( aux ); // add this one
 					aux = null; // new one
 					continue;
 				} else if(in.contentEquals("EOF")) { // end of file
@@ -156,11 +157,11 @@ public class LoadingUtil {
 				// splitting
 				a = in.split("=");
 				
-				if(a[1].contentEquals("new_heroi")) { // new one
-					aux = ((Heroi)mapa.get( a[0] )).clone();
+				if(a[1].contentEquals("new_hero")) { // new one
+					aux = ((Hero)map.get( a[0] )).clone();
 				} else {
 					// setting attributes
-					LoadingUtil.atribuaAnimado(a[0], a[1], aux);
+					LoadingUtil.setAnimated(a[0], a[1], aux);
 				}
 			}
 			
@@ -169,13 +170,14 @@ public class LoadingUtil {
 			ent.close();
 		} catch (Exception e) {
 			// ops...
-			System.out.println("Arquivo não encontrado em " + end);
+			System.out.println("File not found at " + address);
 		}
 	}
-	private static void atribuaAnimado(String atr, String val, Animado aux) {
+	// it sets the attributes
+	private static void setAnimated(String attr, String val, Animated aux) {
 		Random random; // random value
 		
-		switch(atr) {
+		switch(attr) {
 		case "x": // x axis
 			aux.setX( Integer.parseInt(val) );
 			break;
@@ -190,7 +192,7 @@ public class LoadingUtil {
 			random = new Random();
 			aux.setY( random.nextInt( Game.WINDOW_HEIGHT ) );
 			break;
-		// in the case it is an attribute from a child class, do a cast
+		// case it is an attribute from a child class, do a cast
 		}
 	}
 	

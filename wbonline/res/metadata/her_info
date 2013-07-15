@@ -1,14 +1,14 @@
-shion=new_heroi
-end=res/img/heroi.png
+shion=new_hero
+address=res/img/heroi.png
 icon=res/img/heroi_icon.png
 width=50
 height=64
-num_lin=1
+num_row=1
 num_col=5
 speed=3
-esp=1
+space=1
 -
-X
+EOF
 
 shion is the name of the hero.
 

@@ -4,8 +4,8 @@ package Controller;
 public class Main {
 	
 	public static void main(String args[]) {
-		
-		Game game = new Jogo();
+		// go
+		Game game = new WBOnline();
 		game.run();
 		
 	}
