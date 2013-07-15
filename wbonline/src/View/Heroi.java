@@ -4,18 +4,30 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 
 import Model.Animado;
+import Model.Estado;
+import Model.EstadoAguardando;
 
 public class Heroi extends Animado implements Cloneable {
 	
-	//private int slot;
 	private int coins;
 	private Image image_icon;
+	
+	private Estado estado;
 	
 	public Heroi() {
 		// inicializações
 		col = 1;
 		coins = 0;
 		//slot = 0;
+		
+		// estado
+		estado = new EstadoAguardando();
+	}
+	
+	public int acao() {
+		estado.acao();
+		
+		return 0;
 	}
 	
 	public void anda() {
@@ -52,7 +64,6 @@ public class Heroi extends Animado implements Cloneable {
 	// setters
 	public void setCoins(int coins) { this.coins = coins; }
 	public void addCoins(int coins) { this.coins += coins; }
-	//public void setSlot(int slot) { this.slot = slot; }
 	public void setIcon(Image image_icon) { this.image_icon = image_icon; }
 	
 }

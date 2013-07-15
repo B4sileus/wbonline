@@ -8,3 +8,16 @@ num_col=5
 speed=3
 esp=1
 -
+X
+
+shion is the name of the hero.
+
+new_heroi means that this is a new kind of hero.
+end is the address of the image to be loaded
+icon is the address of the icon that will be shown on the upper left corner of the screen.
+width is the width of the object to be draw.
+height is the height of the object to be draw.
+num_lin is the number of rows that the animation sprite has.
+num_col is the number of columns that the animation sprite has.
+speed is the speed that each frame of the animation is shown. (the lower, the faster) // kind of delay
+esp is the space between two draws in the sprite

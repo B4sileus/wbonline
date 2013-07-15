@@ -1,0 +1,10 @@
+os=linux
+end=
+
+os = operational system
+Specify your operational system there (windows/linux).
+I had to put this because the path to the images are differently expressed on each one, 
+being the '\\' on windows and '/' on linux.
+I don't know why :) 
+
+delete me!

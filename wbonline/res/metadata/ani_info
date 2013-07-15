@@ -14,3 +14,14 @@ num_lin=1
 num_col=4
 speed=2
 -
+X
+
+coin01 is the name of the animated object
+
+new_animacao means that there is a new kind of animated object being added.
+end is the address of the image to be loaded.
+width is the width of the object to be draw.
+height is the height of the object to be draw.
+num_lin is the number of rows that the animation sprite has.
+num_col is the number of columns that the animation sprite has.
+speed is the speed that each frame of the animation is shown. (the lower, the faster) // kins of delay
