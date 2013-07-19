@@ -22,6 +22,7 @@ public abstract class Animated {
 		space = 0;
 	}
 	
+	// it draws itself
 	public void drawYourself(Graphics2D g) {
 		g.drawImage(image, x, y, x+width, y+height, 
 				width*col + space*(col+1), 

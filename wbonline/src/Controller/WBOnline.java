@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import Model.Animated;
+import Model.Animation;
+import Model.Hero;
 import Util.FontUtil;
 import Util.LoadingUtil;
-import View.Animation;
-import View.Hero;
+import View.HeroShion;
 
 public class WBOnline extends Game {
 	
@@ -18,8 +18,8 @@ public class WBOnline extends Game {
 	private int x, dx;
 	
 	// --- important ---
-	// the map where the animations are goona be stored
-	private Map<String, Animated> hash;
+	// this map will contain the animations of the game, so I can access by the name
+	private Map<String, Animation> hash;
 	// the list with the animated objects
 	private ArrayList<Animation> animations;
 	// the list with the heroes (one is yours, the others are for future online)
@@ -30,15 +30,14 @@ public class WBOnline extends Game {
     	dx = 2;
     	
     	// --- loading ---
-    	hash = new HashMap<String, Animated>();
-    	LoadingUtil.loadAnimated(hash, "res/metadata/ani_info");
-    	LoadingUtil.loadAnimated(hash, "res/metadata/her_info");
+    	hash = new HashMap<String, Animation>();
+    	LoadingUtil.addToTheAnimationMap(hash);
     	
     	animations = new ArrayList<Animation>();
-    	LoadingUtil.addAnimations(hash, animations, "res/metadata/ani_opt");
+    	LoadingUtil.addAnimations(hash, animations, "res/metadata/stage01");
     	
     	heroes = new ArrayList<Hero>();
-    	LoadingUtil.addHeroes(hash, heroes, "res/metadata/her_opt");
+    	heroes.add( new HeroShion() );
     	
     	FontUtil.loadFont("res/metadata/font");
 	}
@@ -80,7 +79,7 @@ public class WBOnline extends Game {
         	Animation aux;
         	aux = animations.get(i);
         	
-        	// they can draw theirselves
+        	// they can draw themselves
         	aux.drawYourself(g);
         }
         
@@ -89,7 +88,7 @@ public class WBOnline extends Game {
         	Hero aux;
         	aux = heroes.get(i);
         	
-        	// they also can draw theirselves
+        	// they also can draw themselves
         	aux.drawYourself(g);
         	// and their icons
         	aux.drawYourIcon(g);
